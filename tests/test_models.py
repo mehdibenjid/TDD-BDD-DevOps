@@ -27,7 +27,7 @@ import os
 import logging
 import unittest
 from decimal import Decimal
-from service.models import Product, Category, db
+from service.models import Product, Category, db, DataValidationError
 from service import app
 from tests.factories import ProductFactory
 
@@ -132,6 +132,13 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(len(products), 1)
         self.assertEqual(products[0].id, original_id)
         self.assertEqual(products[0].description, "testing")
+    
+    # def test_update_a_product_with_empty_id(self):
+    #     """It should raise an exception"""
+    #     product = ProductFactory()
+    #     product.id = None
+    #     self.assertRaises(DataValidationError,product.update)
+        
 
     def test_delete_a_product(self):
         """It should Delete a Product"""
@@ -187,3 +194,17 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(found.count(), count)
         for product in found:
             self.assertEqual(product.category, category)
+
+    # def test_serialize(self):
+    #     """It should Serialize a Product into a dictionary"""
+    #     product = ProductFactory()
+    #     product.id = None
+    #     product.create()
+    #     product_dict = product.serialize()
+    #     self.assertEqual(product_dict["id"], product.id)
+    #     self.assertEqual(product_dict["name"], product.name)
+    #     self.assertEqual(product_dict["description"], product.description)
+    #     self.assertEqual(product_dict["price"], str(product.price))
+    #     self.assertEqual(product_dict["available"], product.available)
+    #     self.assertEqual(product_dict["category"], product.category.name)
+
